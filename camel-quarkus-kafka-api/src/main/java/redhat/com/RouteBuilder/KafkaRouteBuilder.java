@@ -1,12 +1,14 @@
-package redhat.com.RouteBuilder;
+package redhat.com.routeBuilder;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.ExchangePattern;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.kafka.KafkaConstants;
 import org.apache.camel.model.rest.RestBindingMode;
+
+import redhat.com.models.Product;
+
 import org.apache.camel.LoggingLevel;
-import redhat.com.Models.Product;
 
 
 
@@ -17,7 +19,7 @@ public class KafkaRouteBuilder extends RouteBuilder{
     public void configure() throws Exception {
         
         //REST and Open API configuration
-        restConfiguration().bindingMode(RestBindingMode.auto)
+        restConfiguration().bindingMode(RestBindingMode.json)
         	.component("platform-http")
 			.dataFormatProperty("prettyPrint", "true")
 			.contextPath("/").port(8080)
