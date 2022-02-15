@@ -1,5 +1,10 @@
 package redhat.com.routeBuilder;
 
+
+import org.apache.camel.component.mongodb.MongoDbConstants;
+
+import com.mongodb.client.model.Filters;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.ExchangePattern;
 import org.apache.camel.builder.RouteBuilder;
@@ -43,12 +48,12 @@ public class ApiRouteBuilder extends RouteBuilder{
                 .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(404))                     
                 .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(200))                    
                 .endRest()
-        /*.get("/products/{id}")
-                .description("Gets a product from MongoDB from id")
+        .get("/products/{code}")
+                .description("Gets a product from MongoDB from code")
                 .route().routeId("getProductMongo")
-                .log("Called findById API")
-                .to("direct:getFromMongoDbById")                
-                .endRest()*/
+                .log("Called findByCode API")
+                .to("direct:getFromMongoDbByCode")                
+                .endRest()
         ;      
         //Route that sends message to kafka topic
         from("direct:sendToKafka").routeId("sendToKafka")
@@ -58,11 +63,10 @@ public class ApiRouteBuilder extends RouteBuilder{
         ;
 
         //Route gets object from mongo by Id
-        /*from("direct:getFromMongoDbById").routeId("getFromMongoDbById")
-        .setBody(header("id"))
-        .convertBodyTo(ObjectId.class)
-        .to("mongodb:"+ MONGO_DB_HOST +"?database="+ MONGO_DB_DATABASE +"&collection="+ MONGO_DB_COLLECTION +"&operation=findById")
+        from("direct:getFromMongoDbByCode").routeId("getFromMongoDbByCode")
+        //.setHeader(MongoDbConstants.CRITERIA, constant(Filters.eq("code", "${header.code}")))
+        .to("mongodb:mongoBean?hosts="+ MONGO_DB_HOST +"&database="+ MONGO_DB_DATABASE +"&collection="+ MONGO_DB_COLLECTION +"&operation=findAll")
         .setBody(simple("${body}"))
-        ;*/
+        ;
     }
 }
