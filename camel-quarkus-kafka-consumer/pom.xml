@@ -118,6 +118,11 @@
       <artifactId>mongo-java-driver</artifactId>
       <version>3.11.0</version>
     </dependency>
+  
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-jackson</artifactId>
+    </dependency>
   </dependencies>
   <repositories>
     <repository>

@@ -38,8 +38,9 @@ public class ApiRouteBuilder extends RouteBuilder{
         //REST methods configuration
         rest().tag("API Demo using Camel and Quarkus")
         .produces("application/json")
-        .consumes("application/json") 
+       
         .post("/products")
+                .consumes("application/json") 
                 .type(Product.class)
 				.description("Send product to kafka")
 				.route().routeId("postProductSend")
@@ -64,8 +65,10 @@ public class ApiRouteBuilder extends RouteBuilder{
 
         //Route gets object from mongo by Id
         from("direct:getFromMongoDbByCode").routeId("getFromMongoDbByCode")
-        //.setHeader(MongoDbConstants.CRITERIA, constant(Filters.eq("code", "${header.code}")))
+        //.setHeader(MongoDbConstants.CRITERIA, constant(Filters.("code", "${header.code}")))
+        .log("code searched: ${header.code}")
         .to("mongodb:mongoBean?hosts="+ MONGO_DB_HOST +"&database="+ MONGO_DB_DATABASE +"&collection="+ MONGO_DB_COLLECTION +"&operation=findAll")
+        .log("Response Body: ${body}")
         .setBody(simple("${body}"))
         ;
     }
