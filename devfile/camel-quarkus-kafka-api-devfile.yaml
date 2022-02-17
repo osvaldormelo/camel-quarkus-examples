@@ -57,7 +57,7 @@ commands:
         type: exec
         command: mvn package
         component: maven
-  - name: 1. Package the application (Camel Quarkus Consumer)
+  - name: 2. Package the application (Camel Quarkus Consumer)
     actions:
       - workdir: '${CHE_PROJECTS_ROOT}/camel-quarkus-examples/camel-quarkus-kafka-consumer'
         type: exec
@@ -75,6 +75,13 @@ commands:
         type: exec
         command: 'mvn compile quarkus:dev -Dquarkus.http.host=0.0.0.0 -Dquarkus.live-reload.instrumentation=false'
         component: maven
+  - name: oc login
+    actions:
+      - type: exec
+        command: |-
+                  rm oc; curl https://mirror.openshift.com/pub/openshift-v4/clients/oc/latest/linux/oc.tar.gz -s | tar zxv && ./oc login --server=${KUBERNETES_SERVICE_HOST}:443
+        component: vscode-openshift
+        workdir: /tmp
   - name: Attach remote debugger
     actions:
       - referenceContent: |
