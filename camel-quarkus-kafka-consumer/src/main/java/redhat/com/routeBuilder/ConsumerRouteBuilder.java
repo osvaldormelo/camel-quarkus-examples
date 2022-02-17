@@ -39,7 +39,7 @@ public class ConsumerRouteBuilder extends RouteBuilder{
 
         //Route insert object on mongoDB
         from("direct:insertMongoDb").routeId("insertMongoDb")        
-        .to("mongodb:mongoBean?hosts="+ MONGO_DB_HOST +"&username="+MONGO_DB_USERNAME+"&password="+MONGO_DB_PASSWORD+"&database="+ MONGO_DB_DATABASE +"&collection="+ MONGO_DB_COLLECTION +"&operation=insert")
+        .to("mongodb:mongoBean?hosts="+ MONGO_DB_HOST +"&username="+MONGO_DB_USERNAME+"@"+MONGO_DB_DATABASE+"&password="+MONGO_DB_PASSWORD+"&database="+ MONGO_DB_DATABASE +"&collection="+ MONGO_DB_COLLECTION +"&operation=insert")
         
         ;
     }
