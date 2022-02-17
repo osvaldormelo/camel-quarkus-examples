@@ -34,8 +34,14 @@ components:
     env:
       - value: '-XX:MaxRAMPercentage=50.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10 -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom -Duser.home=/home/jboss'
         name: JAVA_OPTS
-      - value: 10.128.2.72
+      - value: my-cluster-kafka-bootstrap.camel-kafka.svc:9092
         name: KAFKA_BOOTSTRAP_SERVERS
+      - value: mongodb.camel-kafka.svc:27017
+        name: MONGO_DB_HOST
+      - value: admin
+        name: MONGO_DB_USERNAME
+      - value: 123456
+        name: MONGO_DB_PASSWORD
       - value: $(JAVA_OPTS)
         name: MAVEN_OPTS
   - id: redhat/vscode-xml/latest
@@ -51,9 +57,21 @@ commands:
         type: exec
         command: mvn package
         component: maven
-  - name: 2. Start Camel Quarkus Kafka API in devmode
+  - name: 1. Package the application (Camel Quarkus Consumer)
+    actions:
+      - workdir: '${CHE_PROJECTS_ROOT}/camel-quarkus-examples/camel-quarkus-kafka-consumer'
+        type: exec
+        command: mvn package
+        component: maven
+  - name: 3. Start Camel Quarkus Kafka API in devmode
     actions:
       - workdir: '${CHE_PROJECTS_ROOT}/camel-quarkus-examples/camel-quarkus-kafka-api'
+        type: exec
+        command: 'mvn compile quarkus:dev -Dquarkus.http.host=0.0.0.0 -Dquarkus.live-reload.instrumentation=false'
+        component: maven
+  - name: 4. Start Camel Quarkus Kafka Consumer in devmode
+    actions:
+      - workdir: '${CHE_PROJECTS_ROOT}/camel-quarkus-examples/camel-quarkus-kafka-consumer'
         type: exec
         command: 'mvn compile quarkus:dev -Dquarkus.http.host=0.0.0.0 -Dquarkus.live-reload.instrumentation=false'
         component: maven
