@@ -23,8 +23,8 @@ public class ConsumerRouteBuilder extends RouteBuilder{
     protected String MONGO_DB_HOST = "{{mongo.db.host}}";
     protected String MONGO_DB_DATABASE = "{{mongo.db.database}}";
     protected String MONGO_DB_COLLECTION = "{{mongo.db.collection}}";
-    
-
+    protected String MONGO_DB_USERNAME = "{{mongo.db.username}}";
+    protected String MONGO_DB_PASSWORD = "{{mongo.db.password}}";
     @Override
     public void configure() throws Exception {
         
@@ -39,7 +39,7 @@ public class ConsumerRouteBuilder extends RouteBuilder{
 
         //Route insert object on mongoDB
         from("direct:insertMongoDb").routeId("insertMongoDb")        
-        .to("mongodb:mongoBean?hosts="+ MONGO_DB_HOST +"&database="+ MONGO_DB_DATABASE +"&collection="+ MONGO_DB_COLLECTION +"&operation=insert")
+        .to("mongodb:mongoBean?hosts="+ MONGO_DB_HOST +"&username="+MONGO_DB_USERNAME+"&password="+MONGO_DB_PASSWORD+"&database="+ MONGO_DB_DATABASE +"&collection="+ MONGO_DB_COLLECTION +"&operation=insert")
         
         ;
     }

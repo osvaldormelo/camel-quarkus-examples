@@ -2,9 +2,7 @@ package redhat.com.routeBuilder;
 
 
 import org.apache.camel.component.mongodb.MongoDbConstants;
-
 import com.mongodb.client.model.Filters;
-
 import org.apache.camel.Exchange;
 import org.apache.camel.ExchangePattern;
 import org.apache.camel.builder.RouteBuilder;
@@ -21,6 +19,8 @@ public class ApiRouteBuilder extends RouteBuilder{
     protected String MONGO_DB_HOST = "{{mongo.db.host}}";
     protected String MONGO_DB_DATABASE = "{{mongo.db.database}}";
     protected String MONGO_DB_COLLECTION = "{{mongo.db.collection}}";
+    protected String MONGO_DB_USERNAME = "{{mongo.db.username}}";
+    protected String MONGO_DB_PASSWORD = "{{mongo.db.password}}";
 
     @Override
     public void configure() throws Exception {
@@ -67,7 +67,7 @@ public class ApiRouteBuilder extends RouteBuilder{
         from("direct:getFromMongoDbByCode").routeId("getFromMongoDbByCode")
         //.setHeader(MongoDbConstants.CRITERIA, constant(Filters.("code", "${header.code}")))
         .log("code searched: ${header.code}")
-        .to("mongodb:mongoBean?hosts="+ MONGO_DB_HOST +"&database="+ MONGO_DB_DATABASE +"&collection="+ MONGO_DB_COLLECTION +"&operation=findAll")
+        .to("mongodb:mongoBean?hosts="+ MONGO_DB_HOST +"&username="+MONGO_DB_USERNAME+"&password="+MONGO_DB_PASSWORD+"&database="+ MONGO_DB_DATABASE +"&collection="+ MONGO_DB_COLLECTION +"&operation=findAll")
         .log("Response Body: ${body}")
         .setBody(simple("${body}"))
         ;
