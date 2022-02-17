@@ -40,7 +40,7 @@ components:
         name: MONGO_DB_HOST
       - value: admin
         name: MONGO_DB_USERNAME
-      - value: 123456
+      - value: '123456'
         name: MONGO_DB_PASSWORD
       - value: $(JAVA_OPTS)
         name: MAVEN_OPTS
