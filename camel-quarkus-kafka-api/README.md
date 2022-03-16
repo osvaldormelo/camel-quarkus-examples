@@ -1,8 +1,8 @@
-# camel-quarkus-kafka-api Project
+# camel-quarkus-kafka-api
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+This project uses Quarkus, the Supersonic Subatomic Java Framework.This is an API example with Camel Quarkus whose POST method sends the records to kafka and the GET method fetches the Records from a mongoDB, demonstrating an EDA (Event Driven Architecture) concept called eventual consistency
 
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
+
 
 ## Running the application in dev mode
 
@@ -47,10 +47,3 @@ You can then execute your native executable with: `./target/camel-quarkus-kafka-
 
 If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.
 
-## Provided Code
-
-### RESTEasy JAX-RS
-
-Easily start your RESTful Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started#the-jax-rs-resources)
