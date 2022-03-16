@@ -1,8 +1,6 @@
 # camel-quarkus-kafka-consumer Project
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
-
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
+This project uses Quarkus, the Supersonic Subatomic Java Framework. This is an example consumer subscribing to a kafka topic and when messages arrive in that topic it saves the topic messages in mongoDB. Complementing the camel-quarkus-kafka-api project.
 
 ## Running the application in dev mode
 
@@ -46,11 +44,3 @@ Or, if you don't have GraalVM installed, you can run the native executable build
 You can then execute your native executable with: `./target/camel-quarkus-kafka-consumer-1.0.0-SNAPSHOT-runner`
 
 If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.
-
-## Provided Code
-
-### RESTEasy JAX-RS
-
-Easily start your RESTful Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started#the-jax-rs-resources)
