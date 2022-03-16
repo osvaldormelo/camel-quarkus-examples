@@ -1,0 +1,19 @@
+= Camel Quarkus Examples
+
+The idea of this repository is to make available, quickly and objectively, some proofs of concept and demonstrations of camel quarkus so that we can apply them to our customers. We ask that each usage case occupies a specific folder and that a devfile is created (stored in the devfile folder) in order to organize and achieve a clean development environment for each application.
+
+Everyone is invited to collaborate, enjoy!
+
+== Contents
+
+1. camel-quarkus-kafka-api - An API example with Camel Quarkus whose POST method sends the records to kafka and the GET method fetches the records from a mongoDB. 
+
+2. camel-quarkus-kafka-consumer - An example consumer subscribing to a kafka topic and when messages arrive in that topic it saves the topic messages in mongoDB.
+
+== Useful Links
+
+https://code.quarkus.redhat.com/ - Application Generator
+
+https://developers.redhat.com/developer-sandbox - Developer Sandbox of CodeReady Workspaces
+
+https://github.com/apache/camel-quarkus-examples - Simple Examples of power of Camel Quarkus
