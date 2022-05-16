@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: chatbot
+  namespace: kafka-camel
+spec:
+  selector:
+    camel.apache.org/integration: chat-controller-route
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080

@@ -6,9 +6,17 @@ Everyone is invited to collaborate, enjoy!
 
 == Contents
 
-1. camel-quarkus-kafka-api - An API example with Camel Quarkus whose POST method sends the records to kafka and the GET method fetches the records from a mongoDB. 
+1. camel-quarkus-kafka-api-mongo - An API example with Camel Quarkus whose POST method sends the records to kafka and the GET method fetches the records from a mongoDB. 
 
-2. camel-quarkus-kafka-consumer - An example consumer subscribing to a kafka topic and when messages arrive in that topic it saves the topic messages in mongoDB.
+2. camel-quarkus-kafka-consumer-mongo - An example consumer subscribing to a kafka topic and when messages arrive in that topic it saves the topic messages in mongoDB.
+
+3. camel-quarkus-artemis-consumer - An example of a consumer subscribing to an artemis(AMQ broker) topic(raw) and queuing to another topic(processed).
+
+4. camel-quarkus-ws-to-event - An example of websocket receiving a json payload, then queuing in a topic(raw) from artemis(AMQ Broker) and a kafka topic(raw too) using wiretap.
+
+5. camel-quarkus-ws-to-event-artemis - An example of websocket receiving a json payload, then queuing in a topic(raw) from artemis(AMQ Broker).
+
+6. camel-quarkus-kafka - An example of a consumer subscribing to an kafka topic(raw) and queuing to another topic(processed).
 
 == Useful Links
 

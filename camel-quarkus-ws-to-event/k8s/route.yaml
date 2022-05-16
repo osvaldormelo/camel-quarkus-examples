@@ -1,0 +1,13 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: chatbot
+  namespace: kafka-camel
+spec:
+  to:
+    kind: Service
+    name: chatbot
+    weight: 100
+  port:
+    targetPort: 8080
+  wildcardPolicy: None

@@ -1,0 +1,135 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    app.openshift.io/vcs-url: <<unknown>>
+    app.quarkus.io/commit-id: 8d4a3a99936c929d3d248cff8157a4ed891b65e8
+    app.quarkus.io/build-timestamp: 2022-05-16 - 15:16:12 +0000
+  labels:
+    app.kubernetes.io/name: camel-quarkus-kafka-consumer-raw
+    app.kubernetes.io/version: 1.0.0-SNAPSHOT
+    app.openshift.io/runtime: quarkus
+  name: camel-quarkus-kafka-consumer-raw
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8090
+  selector:
+    app.kubernetes.io/name: camel-quarkus-kafka-consumer-raw
+    app.kubernetes.io/version: 1.0.0-SNAPSHOT
+  type: ClusterIP
+---
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  annotations:
+    app.openshift.io/vcs-url: <<unknown>>
+    app.quarkus.io/commit-id: 8d4a3a99936c929d3d248cff8157a4ed891b65e8
+    app.quarkus.io/build-timestamp: 2022-05-16 - 15:16:12 +0000
+  labels:
+    app.kubernetes.io/version: 1.0.0-SNAPSHOT
+    app.kubernetes.io/name: camel-quarkus-kafka-consumer-raw
+    app.openshift.io/runtime: quarkus
+  name: camel-quarkus-kafka-consumer-raw
+spec: {}
+---
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  name: openjdk-11
+spec:
+  dockerImageRepository: registry.access.redhat.com/ubi8/openjdk-11
+---
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  annotations:
+    app.openshift.io/vcs-url: <<unknown>>
+    app.quarkus.io/commit-id: 8d4a3a99936c929d3d248cff8157a4ed891b65e8
+    app.quarkus.io/build-timestamp: 2022-05-16 - 15:16:12 +0000
+  labels:
+    app.kubernetes.io/version: 1.0.0-SNAPSHOT
+    app.kubernetes.io/name: camel-quarkus-kafka-consumer-raw
+    app.openshift.io/runtime: quarkus
+  name: camel-quarkus-kafka-consumer-raw
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: camel-quarkus-kafka-consumer-raw:1.0.0-SNAPSHOT
+  source:
+    binary: {}
+  strategy:
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        name: openjdk-11:latest
+---
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  annotations:
+    app.openshift.io/vcs-url: <<unknown>>
+    app.quarkus.io/commit-id: 8d4a3a99936c929d3d248cff8157a4ed891b65e8
+    app.quarkus.io/build-timestamp: 2022-05-16 - 15:16:12 +0000
+  labels:
+    app.kubernetes.io/version: 1.0.0-SNAPSHOT
+    app.kubernetes.io/name: camel-quarkus-kafka-consumer-raw
+    app.openshift.io/runtime: quarkus
+  name: camel-quarkus-kafka-consumer-raw
+spec:
+  replicas: 1
+  selector:
+    app.kubernetes.io/name: camel-quarkus-kafka-consumer-raw
+    app.kubernetes.io/version: 1.0.0-SNAPSHOT
+  template:
+    metadata:
+      annotations:
+        app.openshift.io/vcs-url: <<unknown>>
+        app.quarkus.io/commit-id: 8d4a3a99936c929d3d248cff8157a4ed891b65e8
+        app.quarkus.io/build-timestamp: 2022-05-16 - 15:16:12 +0000
+      labels:
+        app.kubernetes.io/version: 1.0.0-SNAPSHOT
+        app.kubernetes.io/name: camel-quarkus-kafka-consumer-raw
+        app.openshift.io/runtime: quarkus
+    spec:
+      containers:
+        - command:
+            - java
+            - -Dquarkus.http.host=0.0.0.0
+            - -Djava.util.logging.manager=org.jboss.logmanager.LogManager
+            - -jar
+            - /deployments/quarkus-run.jar
+          env:
+            - name: KUBERNETES_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: KAFKA_GROUP_ID
+              value: chatBotConsumerGroup
+            - name: KAFKA_BOOTSTRAP_SERVERS
+              value: my-cluster-kafka-bootstrap.microservices.svc.cluster.local:9092
+            - name: KAFKA_TOPIC_PROCESSED
+              value: chat-bot-processed
+            - name: KAFKA_TOPIC_RAW
+              value: chat-bot-raw
+            - name: JAVA_APP_JAR
+              value: /deployments/quarkus-run.jar
+          image: omelo/camel-quarkus-kafka-consumer-raw:1.0.0-SNAPSHOT
+          imagePullPolicy: IfNotPresent
+          name: camel-quarkus-kafka-consumer-raw
+          ports:
+            - containerPort: 8090
+              name: http
+              protocol: TCP
+  triggers:
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+          - camel-quarkus-kafka-consumer-raw
+        from:
+          kind: ImageStreamTag
+          name: camel-quarkus-kafka-consumer-raw:1.0.0-SNAPSHOT
+      type: ImageChange
