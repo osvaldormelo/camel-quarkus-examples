@@ -1,4 +1,4 @@
-package com.redhat.models;
+package redhat.com.models;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
 

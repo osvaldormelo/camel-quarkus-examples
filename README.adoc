@@ -18,6 +18,8 @@ Everyone is invited to collaborate, enjoy!
 
 6. camel-quarkus-kafka - An example of a consumer subscribing to an kafka topic(raw) and queuing to another topic(processed).
 
+7. camel-quarkus-oracle - An example of API with oracle 19c JDBC connection
+
 == Useful Links
 
 https://code.quarkus.redhat.com/ - Application Generator
