@@ -15,19 +15,13 @@ import org.apache.camel.LoggingLevel;
 
 
 public class ApiRouteBuilder extends RouteBuilder{
-    /*protected String KAFKA_TOPIC = "{{quarkus.openshift.env.vars.kafka-topic}}";
-    protected String KAFKA_BOOTSTRAP_SERVERS = "{{quarkus.openshift.env.vars.kafka-bootstrap-servers}}";
-    protected String MONGO_DB_HOST = "{{quarkus.openshift.env.vars.mongo-db-host}}";
-    protected String MONGO_DB_DATABASE = "{{quarkus.openshift.env.vars.mongo-db-database}}";
-    protected String MONGO_DB_COLLECTION = "{{quarkus.openshift.env.vars.mongo-db-collection}}";
-    protected String MONGO_DB_USERNAME = "{{quarkus.openshift.env.vars.mongo-db-username}}";
-    protected String MONGO_DB_PASSWORD = "{{quarkus.openshift.env.vars.mongo-db-password}}";*/
+    protected String LIFE_SPAN_TIME = "{{quarkus.openshift.env.vars.life-span-time}}";
 
     @Override
-    public void configure() throws Exception {
-        
+    public void configure() throws Exception {        
+
         //REST and Open API configuration
-        restConfiguration().bindingMode(RestBindingMode.auto)
+        restConfiguration().bindingMode(RestBindingMode.json)
         	.component("platform-http")
 			.dataFormatProperty("prettyPrint", "true")
 			.contextPath("/").port(8080)
@@ -77,6 +71,7 @@ public class ApiRouteBuilder extends RouteBuilder{
             .to("sql:SELECT * FROM ot.keys WHERE key = :#key AND rownum = 1")
             .log("Response Body: ${body}")
             .process(new RowProcessor())
+            .setHeader("LifeSpanTimeSeconds",simple(LIFE_SPAN_TIME))//header for cache use
         .setBody(simple("${body}"))
         ;
 

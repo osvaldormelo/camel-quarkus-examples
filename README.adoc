@@ -20,6 +20,8 @@ Everyone is invited to collaborate, enjoy!
 
 7. camel-quarkus-oracle - An example of API with oracle 19c JDBC connection
 
+8. camel-quarkus-infinispan - An example of API proxy using cache from datagrid. This example uses circuit breaker and choice patterns and consumes camel-quarkus-oracle API.
+
 == Useful Links
 
 https://code.quarkus.redhat.com/ - Application Generator
