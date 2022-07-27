@@ -4,8 +4,8 @@ kind: Service
 metadata:
   annotations:
     app.openshift.io/vcs-url: <<unknown>>
-    app.quarkus.io/commit-id: 8d4a3a99936c929d3d248cff8157a4ed891b65e8
-    app.quarkus.io/build-timestamp: 2022-05-16 - 22:54:20 +0000
+    app.quarkus.io/commit-id: 3aab1253eb81fdc3fe4742eb3e4282a9ca43c6b7
+    app.quarkus.io/build-timestamp: 2022-06-22 - 19:07:45 +0000
   labels:
     app.kubernetes.io/name: camel-quarkus-ws-to-event
     app.kubernetes.io/version: 1.0.0-SNAPSHOT
@@ -26,11 +26,11 @@ kind: ImageStream
 metadata:
   annotations:
     app.openshift.io/vcs-url: <<unknown>>
-    app.quarkus.io/commit-id: 8d4a3a99936c929d3d248cff8157a4ed891b65e8
-    app.quarkus.io/build-timestamp: 2022-05-16 - 22:54:20 +0000
+    app.quarkus.io/commit-id: 3aab1253eb81fdc3fe4742eb3e4282a9ca43c6b7
+    app.quarkus.io/build-timestamp: 2022-06-22 - 19:07:45 +0000
   labels:
-    app.kubernetes.io/name: camel-quarkus-ws-to-event
     app.kubernetes.io/version: 1.0.0-SNAPSHOT
+    app.kubernetes.io/name: camel-quarkus-ws-to-event
     app.openshift.io/runtime: quarkus
   name: camel-quarkus-ws-to-event
 spec: {}
@@ -47,11 +47,11 @@ kind: BuildConfig
 metadata:
   annotations:
     app.openshift.io/vcs-url: <<unknown>>
-    app.quarkus.io/commit-id: 8d4a3a99936c929d3d248cff8157a4ed891b65e8
-    app.quarkus.io/build-timestamp: 2022-05-16 - 22:54:20 +0000
+    app.quarkus.io/commit-id: 3aab1253eb81fdc3fe4742eb3e4282a9ca43c6b7
+    app.quarkus.io/build-timestamp: 2022-06-22 - 19:07:45 +0000
   labels:
-    app.kubernetes.io/name: camel-quarkus-ws-to-event
     app.kubernetes.io/version: 1.0.0-SNAPSHOT
+    app.kubernetes.io/name: camel-quarkus-ws-to-event
     app.openshift.io/runtime: quarkus
   name: camel-quarkus-ws-to-event
 spec:
@@ -72,27 +72,27 @@ kind: DeploymentConfig
 metadata:
   annotations:
     app.openshift.io/vcs-url: <<unknown>>
-    app.quarkus.io/commit-id: 8d4a3a99936c929d3d248cff8157a4ed891b65e8
-    app.quarkus.io/build-timestamp: 2022-05-16 - 22:54:20 +0000
+    app.quarkus.io/commit-id: 3aab1253eb81fdc3fe4742eb3e4282a9ca43c6b7
+    app.quarkus.io/build-timestamp: 2022-06-22 - 19:07:45 +0000
   labels:
-    app.kubernetes.io/name: camel-quarkus-ws-to-event
     app.kubernetes.io/version: 1.0.0-SNAPSHOT
+    app.kubernetes.io/name: camel-quarkus-ws-to-event
     app.openshift.io/runtime: quarkus
   name: camel-quarkus-ws-to-event
 spec:
   replicas: 1
   selector:
-    app.kubernetes.io/version: 1.0.0-SNAPSHOT
     app.kubernetes.io/name: camel-quarkus-ws-to-event
+    app.kubernetes.io/version: 1.0.0-SNAPSHOT
   template:
     metadata:
       annotations:
         app.openshift.io/vcs-url: <<unknown>>
-        app.quarkus.io/commit-id: 8d4a3a99936c929d3d248cff8157a4ed891b65e8
-        app.quarkus.io/build-timestamp: 2022-05-16 - 22:54:20 +0000
+        app.quarkus.io/commit-id: 3aab1253eb81fdc3fe4742eb3e4282a9ca43c6b7
+        app.quarkus.io/build-timestamp: 2022-06-22 - 19:07:45 +0000
       labels:
-        app.kubernetes.io/name: camel-quarkus-ws-to-event
         app.kubernetes.io/version: 1.0.0-SNAPSHOT
+        app.kubernetes.io/name: camel-quarkus-ws-to-event
         app.openshift.io/runtime: quarkus
     spec:
       containers:
@@ -107,24 +107,24 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-            - name: QUARKUS_ARTEMIS_PASSWORD
-              value: "123456"
+            - name: QUARKUS_ARTEMIS_URL
+              value: tcp://ex-aao-hdls-svc:61616
+            - name: KAFKA_GROUP_ID
+              value: chatBotConsumerGroup
+            - name: QUARKUS_ARTEMIS_DESTINATIONTYPE
+              value: topic
+            - name: QUARKUS_ARTEMIS_DESTINATIONNAME_PROCESSED
+              value: chat-bot-processed
             - name: KAFKA_BOOTSTRAP_SERVERS
-              value: my-cluster-kafka-bootstrap.microservices.svc.cluster.local:9092
+              value: kafka-cluster-kafka-bootstrap.horus.svc.cluster.local:9092
             - name: QUARKUS_ARTEMIS_DESTINATIONNAME_RAW
               value: chat-bot-raw
             - name: KAFKA_TOPIC_PROCESSED
               value: chat-bot-processed
-            - name: QUARKUS_ARTEMIS_DESTINATIONTYPE
-              value: topic
-            - name: KAFKA_GROUP_ID
-              value: chatBotConsumerGroup
-            - name: QUARKUS_ARTEMIS_DESTINATIONNAME_PROCESSED
-              value: chat-bot-processed
+            - name: QUARKUS_ARTEMIS_PASSWORD
+              value: "123456"
             - name: KAFKA_TOPIC_RAW
               value: chat-bot-raw
-            - name: QUARKUS_ARTEMIS_URL
-              value: tcp://amq-broker-hdls-svc:61616
             - name: QUARKUS_ARTEMIS_USERNAME
               value: admin
             - name: JAVA_APP_JAR
@@ -151,8 +151,8 @@ kind: Route
 metadata:
   annotations:
     app.openshift.io/vcs-url: <<unknown>>
-    app.quarkus.io/commit-id: 8d4a3a99936c929d3d248cff8157a4ed891b65e8
-    app.quarkus.io/build-timestamp: 2022-05-16 - 22:54:20 +0000
+    app.quarkus.io/commit-id: 3aab1253eb81fdc3fe4742eb3e4282a9ca43c6b7
+    app.quarkus.io/build-timestamp: 2022-06-22 - 19:07:45 +0000
   labels:
     app.kubernetes.io/name: camel-quarkus-ws-to-event
     app.kubernetes.io/version: 1.0.0-SNAPSHOT

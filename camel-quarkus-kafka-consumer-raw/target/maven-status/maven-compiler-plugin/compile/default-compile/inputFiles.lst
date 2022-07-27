@@ -1,2 +1,2 @@
-/Users/omelo/Repos/camel-quarkus-examples/camel-quarkus-kafka-consumer-raw/src/main/java/redhat/com/routeBuilder/ConsumerRouteBuilder.java
-/Users/omelo/Repos/camel-quarkus-examples/camel-quarkus-kafka-consumer-raw/src/main/java/redhat/com/models/Message.java
+/Users/omelo/Repos/camel-quarkus-examples2/camel-quarkus-kafka-consumer-raw/src/main/java/redhat/com/models/Message.java
+/Users/omelo/Repos/camel-quarkus-examples2/camel-quarkus-kafka-consumer-raw/src/main/java/redhat/com/routeBuilder/ConsumerRouteBuilder.java

@@ -19,19 +19,19 @@ public class ChatControllerRoute extends RouteBuilder{
         from("vertx-websocket://echo")
             .log(">>> Message received from WebSocket Client : ${body} - ${headers}")
             .unmarshal(new JacksonDataFormat(Message.class))
-            .wireTap("direct:send-to-artemis")
+            //.wireTap("direct:send-to-artemis")
         .to("direct:send-to-kafka");
 
         from("direct:send-to-kafka").routeId("send-to-kafka")
             .marshal().json()   // marshall message to send to kafka
-            .setHeader("kafka.KEY", constant("Camel")) // Key of the message
-        .to("kafka:"+KAFKA_TOPIC_RAW+"?brokers="+KAFKA_BOOTSTRAP_SERVERS);
+            //.setHeader("kafka.KEY", constant("Camel")) // Key of the message
+        .to("kafka:"+KAFKA_TOPIC_RAW+"?brokers="+KAFKA_BOOTSTRAP_SERVERS + "&requestRequiredAcks=0");
 
-        from("direct:send-to-artemis")
+        /*from("direct:send-to-artemis")
             .routeId("send-to-artemis")
             .marshal().json()   // marshall message to send to artemis
             .log(">>> Message sended to Artemis : ${body} - ${headers}")            
-        .to("jms:topic:"+ ARTEMIS_DESTINATION_NAME_RAW);
+        .to("jms:topic:"+ ARTEMIS_DESTINATION_NAME_RAW);*/
              
 
         //Route that consumes message to kafka topic

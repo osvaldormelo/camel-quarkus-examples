@@ -3,8 +3,8 @@ apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    app.quarkus.io/commit-id: 8d4a3a99936c929d3d248cff8157a4ed891b65e8
-    app.quarkus.io/build-timestamp: 2022-05-16 - 22:54:20 +0000
+    app.quarkus.io/commit-id: 3aab1253eb81fdc3fe4742eb3e4282a9ca43c6b7
+    app.quarkus.io/build-timestamp: 2022-06-22 - 19:07:45 +0000
   labels:
     app.kubernetes.io/name: camel-quarkus-ws-to-event
     app.kubernetes.io/version: 1.0.0-SNAPSHOT
@@ -23,26 +23,26 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    app.quarkus.io/commit-id: 8d4a3a99936c929d3d248cff8157a4ed891b65e8
-    app.quarkus.io/build-timestamp: 2022-05-16 - 22:54:20 +0000
+    app.quarkus.io/commit-id: 3aab1253eb81fdc3fe4742eb3e4282a9ca43c6b7
+    app.quarkus.io/build-timestamp: 2022-06-22 - 19:07:45 +0000
   labels:
-    app.kubernetes.io/name: camel-quarkus-ws-to-event
     app.kubernetes.io/version: 1.0.0-SNAPSHOT
+    app.kubernetes.io/name: camel-quarkus-ws-to-event
   name: camel-quarkus-ws-to-event
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: camel-quarkus-ws-to-event
       app.kubernetes.io/version: 1.0.0-SNAPSHOT
+      app.kubernetes.io/name: camel-quarkus-ws-to-event
   template:
     metadata:
       annotations:
-        app.quarkus.io/commit-id: 8d4a3a99936c929d3d248cff8157a4ed891b65e8
-        app.quarkus.io/build-timestamp: 2022-05-16 - 22:54:20 +0000
+        app.quarkus.io/commit-id: 3aab1253eb81fdc3fe4742eb3e4282a9ca43c6b7
+        app.quarkus.io/build-timestamp: 2022-06-22 - 19:07:45 +0000
       labels:
-        app.kubernetes.io/name: camel-quarkus-ws-to-event
         app.kubernetes.io/version: 1.0.0-SNAPSHOT
+        app.kubernetes.io/name: camel-quarkus-ws-to-event
     spec:
       containers:
         - command:
@@ -70,8 +70,8 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
-    app.quarkus.io/commit-id: 8d4a3a99936c929d3d248cff8157a4ed891b65e8
-    app.quarkus.io/build-timestamp: 2022-05-16 - 22:54:20 +0000
+    app.quarkus.io/commit-id: 3aab1253eb81fdc3fe4742eb3e4282a9ca43c6b7
+    app.quarkus.io/build-timestamp: 2022-06-22 - 19:07:45 +0000
   labels:
     app.kubernetes.io/name: camel-quarkus-ws-to-event
     app.kubernetes.io/version: 1.0.0-SNAPSHOT

@@ -4,8 +4,8 @@ kind: Service
 metadata:
   annotations:
     app.openshift.io/vcs-url: <<unknown>>
-    app.quarkus.io/commit-id: 8d4a3a99936c929d3d248cff8157a4ed891b65e8
-    app.quarkus.io/build-timestamp: 2022-05-16 - 15:16:12 +0000
+    app.quarkus.io/commit-id: 3aab1253eb81fdc3fe4742eb3e4282a9ca43c6b7
+    app.quarkus.io/build-timestamp: 2022-06-21 - 13:16:21 +0000
   labels:
     app.kubernetes.io/name: camel-quarkus-kafka-consumer-raw
     app.kubernetes.io/version: 1.0.0-SNAPSHOT
@@ -26,11 +26,11 @@ kind: ImageStream
 metadata:
   annotations:
     app.openshift.io/vcs-url: <<unknown>>
-    app.quarkus.io/commit-id: 8d4a3a99936c929d3d248cff8157a4ed891b65e8
-    app.quarkus.io/build-timestamp: 2022-05-16 - 15:16:12 +0000
+    app.quarkus.io/commit-id: 3aab1253eb81fdc3fe4742eb3e4282a9ca43c6b7
+    app.quarkus.io/build-timestamp: 2022-06-21 - 13:16:21 +0000
   labels:
-    app.kubernetes.io/version: 1.0.0-SNAPSHOT
     app.kubernetes.io/name: camel-quarkus-kafka-consumer-raw
+    app.kubernetes.io/version: 1.0.0-SNAPSHOT
     app.openshift.io/runtime: quarkus
   name: camel-quarkus-kafka-consumer-raw
 spec: {}
@@ -47,11 +47,11 @@ kind: BuildConfig
 metadata:
   annotations:
     app.openshift.io/vcs-url: <<unknown>>
-    app.quarkus.io/commit-id: 8d4a3a99936c929d3d248cff8157a4ed891b65e8
-    app.quarkus.io/build-timestamp: 2022-05-16 - 15:16:12 +0000
+    app.quarkus.io/commit-id: 3aab1253eb81fdc3fe4742eb3e4282a9ca43c6b7
+    app.quarkus.io/build-timestamp: 2022-06-21 - 13:16:21 +0000
   labels:
-    app.kubernetes.io/version: 1.0.0-SNAPSHOT
     app.kubernetes.io/name: camel-quarkus-kafka-consumer-raw
+    app.kubernetes.io/version: 1.0.0-SNAPSHOT
     app.openshift.io/runtime: quarkus
   name: camel-quarkus-kafka-consumer-raw
 spec:
@@ -72,27 +72,27 @@ kind: DeploymentConfig
 metadata:
   annotations:
     app.openshift.io/vcs-url: <<unknown>>
-    app.quarkus.io/commit-id: 8d4a3a99936c929d3d248cff8157a4ed891b65e8
-    app.quarkus.io/build-timestamp: 2022-05-16 - 15:16:12 +0000
+    app.quarkus.io/commit-id: 3aab1253eb81fdc3fe4742eb3e4282a9ca43c6b7
+    app.quarkus.io/build-timestamp: 2022-06-21 - 13:16:21 +0000
   labels:
-    app.kubernetes.io/version: 1.0.0-SNAPSHOT
     app.kubernetes.io/name: camel-quarkus-kafka-consumer-raw
+    app.kubernetes.io/version: 1.0.0-SNAPSHOT
     app.openshift.io/runtime: quarkus
   name: camel-quarkus-kafka-consumer-raw
 spec:
   replicas: 1
   selector:
-    app.kubernetes.io/name: camel-quarkus-kafka-consumer-raw
     app.kubernetes.io/version: 1.0.0-SNAPSHOT
+    app.kubernetes.io/name: camel-quarkus-kafka-consumer-raw
   template:
     metadata:
       annotations:
         app.openshift.io/vcs-url: <<unknown>>
-        app.quarkus.io/commit-id: 8d4a3a99936c929d3d248cff8157a4ed891b65e8
-        app.quarkus.io/build-timestamp: 2022-05-16 - 15:16:12 +0000
+        app.quarkus.io/commit-id: 3aab1253eb81fdc3fe4742eb3e4282a9ca43c6b7
+        app.quarkus.io/build-timestamp: 2022-06-21 - 13:16:21 +0000
       labels:
-        app.kubernetes.io/version: 1.0.0-SNAPSHOT
         app.kubernetes.io/name: camel-quarkus-kafka-consumer-raw
+        app.kubernetes.io/version: 1.0.0-SNAPSHOT
         app.openshift.io/runtime: quarkus
     spec:
       containers:
@@ -107,14 +107,14 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
+            - name: KAFKA_TOPIC_RAW
+              value: chat-bot-raw
+            - name: KAFKA_TOPIC_PROCESSED
+              value: chat-bot-processed
             - name: KAFKA_GROUP_ID
               value: chatBotConsumerGroup
             - name: KAFKA_BOOTSTRAP_SERVERS
-              value: my-cluster-kafka-bootstrap.microservices.svc.cluster.local:9092
-            - name: KAFKA_TOPIC_PROCESSED
-              value: chat-bot-processed
-            - name: KAFKA_TOPIC_RAW
-              value: chat-bot-raw
+              value: kafka-cluster-kafka-bootstrap.horus.svc.cluster.local:9092
             - name: JAVA_APP_JAR
               value: /deployments/quarkus-run.jar
           image: omelo/camel-quarkus-kafka-consumer-raw:1.0.0-SNAPSHOT

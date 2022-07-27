@@ -15,6 +15,7 @@ import java.util.concurrent.TimeUnit;
 public class ApiRouteBuilder extends RouteBuilder{
     protected String REST_API = "{{quarkus.openshift.env.vars.rest-api}}";
     protected String CACHE_NAME = "{{quarkus.openshift.env.vars.cache-name}}";
+    
 
     @Override
     public void configure() throws Exception {       
@@ -53,7 +54,7 @@ public class ApiRouteBuilder extends RouteBuilder{
                         .setHeader(InfinispanConstants.KEY,simple("${header.key}"))	           
                         .to("infinispan:" + CACHE_NAME) 
                         .setHeader("InfinispanContainsKeyResult",simple("${body}"))
-                        .log("Request to circuit breaker: ${headers} ${body}")                       
+                        //.log("Request to circuit breaker: ${headers} ${body}")                       
         				.to("direct:cache")
         	        .onFallback()
         	        	.to("direct:getFromRestApi")
@@ -66,7 +67,7 @@ public class ApiRouteBuilder extends RouteBuilder{
         		.when().simple("${header.InfinispanContainsKeyResult} == 'true'")
                     .setHeader(InfinispanConstants.OPERATION).constant(InfinispanOperation.GET)
                     .setHeader(InfinispanConstants.KEY,simple("${header.key}"))
-                    .log("Request to choice: ${headers} ${body}")
+                   // .log("Request to choice: ${headers} ${body}")
                     .to("infinispan:" + CACHE_NAME) 
                     .unmarshal(new JacksonDataFormat(Key.class))
                     .setBody(simple("${body}"))
@@ -82,9 +83,9 @@ public class ApiRouteBuilder extends RouteBuilder{
                     .setHeader(InfinispanConstants.LIFESPAN_TIME_UNIT,simple(TimeUnit.SECONDS.toString()))
                     .setHeader(InfinispanConstants.MAX_IDLE_TIME, simple("${header.lifespantimeseconds}"))
                     .setHeader(InfinispanConstants.MAX_IDLE_TIME_UNIT, simple(TimeUnit.SECONDS.toString()))
-                    .log("Request to PUT on Cache: ${headers} ${body}") 
+                   // .log("Request to PUT on Cache: ${headers} ${body}") 
                    .to("infinispan:" + CACHE_NAME)
-                    .log("Result to PUT on Cache: ${headers} ${body}") 
+                   // .log("Result to PUT on Cache: ${headers} ${body}") 
                     .setBody(simple("${header.CamelInfinispanValue}"))
                     .unmarshal(new JacksonDataFormat(Key.class))
                    .setBody(simple("${body}"))
@@ -93,9 +94,9 @@ public class ApiRouteBuilder extends RouteBuilder{
         //Route gets object from Rest API
         from("direct:getFromRestApi").routeId("getFromRestApi")
             .setHeader("key", simple("${header.key}"))
-            .log("Request to API : ${headers} ${body}")
+            //.log("Request to API : ${headers} ${body}")
             .to("rest:get:/keys/{key}?host=" + REST_API)
-            .log("Response from API: ${headers} ${body}")
+            //.log("Response from API: ${headers} ${body}")
             .unmarshal(new JacksonDataFormat(Key.class))
         .setBody(simple("${body}")) 
         ;
