@@ -4,8 +4,8 @@
   "metadata" : {
     "annotations" : {
       "app.openshift.io/vcs-url" : "<<unknown>>",
-      "app.quarkus.io/commit-id" : "3aab1253eb81fdc3fe4742eb3e4282a9ca43c6b7",
-      "app.quarkus.io/build-timestamp" : "2022-06-22 - 19:07:45 +0000"
+      "app.quarkus.io/commit-id" : "5753f6dd718569b40aa9db11380e74244232f20e",
+      "app.quarkus.io/build-timestamp" : "2022-08-01 - 15:38:32 +0000"
     },
     "labels" : {
       "app.kubernetes.io/name" : "camel-quarkus-ws-to-event",
@@ -32,8 +32,8 @@
   "metadata" : {
     "annotations" : {
       "app.openshift.io/vcs-url" : "<<unknown>>",
-      "app.quarkus.io/commit-id" : "3aab1253eb81fdc3fe4742eb3e4282a9ca43c6b7",
-      "app.quarkus.io/build-timestamp" : "2022-06-22 - 19:07:45 +0000"
+      "app.quarkus.io/commit-id" : "5753f6dd718569b40aa9db11380e74244232f20e",
+      "app.quarkus.io/build-timestamp" : "2022-08-01 - 15:38:32 +0000"
     },
     "labels" : {
       "app.kubernetes.io/version" : "1.0.0-SNAPSHOT",
@@ -58,8 +58,8 @@
   "metadata" : {
     "annotations" : {
       "app.openshift.io/vcs-url" : "<<unknown>>",
-      "app.quarkus.io/commit-id" : "3aab1253eb81fdc3fe4742eb3e4282a9ca43c6b7",
-      "app.quarkus.io/build-timestamp" : "2022-06-22 - 19:07:45 +0000"
+      "app.quarkus.io/commit-id" : "5753f6dd718569b40aa9db11380e74244232f20e",
+      "app.quarkus.io/build-timestamp" : "2022-08-01 - 15:38:32 +0000"
     },
     "labels" : {
       "app.kubernetes.io/version" : "1.0.0-SNAPSHOT",
@@ -93,8 +93,8 @@
   "metadata" : {
     "annotations" : {
       "app.openshift.io/vcs-url" : "<<unknown>>",
-      "app.quarkus.io/commit-id" : "3aab1253eb81fdc3fe4742eb3e4282a9ca43c6b7",
-      "app.quarkus.io/build-timestamp" : "2022-06-22 - 19:07:45 +0000"
+      "app.quarkus.io/commit-id" : "5753f6dd718569b40aa9db11380e74244232f20e",
+      "app.quarkus.io/build-timestamp" : "2022-08-01 - 15:38:32 +0000"
     },
     "labels" : {
       "app.kubernetes.io/version" : "1.0.0-SNAPSHOT",
@@ -113,8 +113,8 @@
       "metadata" : {
         "annotations" : {
           "app.openshift.io/vcs-url" : "<<unknown>>",
-          "app.quarkus.io/commit-id" : "3aab1253eb81fdc3fe4742eb3e4282a9ca43c6b7",
-          "app.quarkus.io/build-timestamp" : "2022-06-22 - 19:07:45 +0000"
+          "app.quarkus.io/commit-id" : "5753f6dd718569b40aa9db11380e74244232f20e",
+          "app.quarkus.io/build-timestamp" : "2022-08-01 - 15:38:32 +0000"
         },
         "labels" : {
           "app.kubernetes.io/version" : "1.0.0-SNAPSHOT",
@@ -133,8 +133,23 @@
               }
             }
           }, {
-            "name" : "QUARKUS_ARTEMIS_URL",
-            "value" : "tcp://ex-aao-hdls-svc:61616"
+            "name" : "KAFKA_TOPIC_PROCESSED",
+            "value" : "chat-bot-processed-ephemeral"
+          }, {
+            "name" : "QUARKUS_ARTEMIS_PASSWORD",
+            "value" : "123456"
+          }, {
+            "name" : "QUARKUS_ARTEMIS_DESTINATIONNAME_RAW",
+            "value" : "chat-bot-raw"
+          }, {
+            "name" : "QUARKUS_ARTEMIS_DESTINATIONNAME_PROCESSED",
+            "value" : "chat-bot-processed"
+          }, {
+            "name" : "QUARKUS_ARTEMIS_USERNAME",
+            "value" : "admin"
+          }, {
+            "name" : "KAFKA_BOOTSTRAP_SERVERS",
+            "value" : "my-cluster-ephemeral-kafka-bootstrap.kafka.svc.cluster.local:9092"
           }, {
             "name" : "KAFKA_GROUP_ID",
             "value" : "chatBotConsumerGroup"
@@ -142,26 +157,11 @@
             "name" : "QUARKUS_ARTEMIS_DESTINATIONTYPE",
             "value" : "topic"
           }, {
-            "name" : "QUARKUS_ARTEMIS_DESTINATIONNAME_PROCESSED",
-            "value" : "chat-bot-processed"
-          }, {
-            "name" : "KAFKA_BOOTSTRAP_SERVERS",
-            "value" : "kafka-cluster-kafka-bootstrap.horus.svc.cluster.local:9092"
-          }, {
-            "name" : "QUARKUS_ARTEMIS_DESTINATIONNAME_RAW",
-            "value" : "chat-bot-raw"
-          }, {
-            "name" : "KAFKA_TOPIC_PROCESSED",
-            "value" : "chat-bot-processed"
-          }, {
-            "name" : "QUARKUS_ARTEMIS_PASSWORD",
-            "value" : "123456"
-          }, {
             "name" : "KAFKA_TOPIC_RAW",
-            "value" : "chat-bot-raw"
+            "value" : "chat-bot-raw-ephemeral"
           }, {
-            "name" : "QUARKUS_ARTEMIS_USERNAME",
-            "value" : "admin"
+            "name" : "QUARKUS_ARTEMIS_URL",
+            "value" : "tcp://ex-aao-hdls-svc:61616"
           }, {
             "name" : "JAVA_APP_JAR",
             "value" : "/deployments/quarkus-run.jar"
@@ -195,8 +195,8 @@
   "metadata" : {
     "annotations" : {
       "app.openshift.io/vcs-url" : "<<unknown>>",
-      "app.quarkus.io/commit-id" : "3aab1253eb81fdc3fe4742eb3e4282a9ca43c6b7",
-      "app.quarkus.io/build-timestamp" : "2022-06-22 - 19:07:45 +0000"
+      "app.quarkus.io/commit-id" : "5753f6dd718569b40aa9db11380e74244232f20e",
+      "app.quarkus.io/build-timestamp" : "2022-08-01 - 15:38:32 +0000"
     },
     "labels" : {
       "app.kubernetes.io/name" : "camel-quarkus-ws-to-event",

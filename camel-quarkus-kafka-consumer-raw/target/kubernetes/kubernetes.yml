@@ -3,8 +3,8 @@ apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    app.quarkus.io/commit-id: 3aab1253eb81fdc3fe4742eb3e4282a9ca43c6b7
-    app.quarkus.io/build-timestamp: 2022-06-21 - 13:16:21 +0000
+    app.quarkus.io/commit-id: 5753f6dd718569b40aa9db11380e74244232f20e
+    app.quarkus.io/build-timestamp: 2022-08-01 - 15:47:30 +0000
   labels:
     app.kubernetes.io/name: camel-quarkus-kafka-consumer-raw
     app.kubernetes.io/version: 1.0.0-SNAPSHOT
@@ -23,8 +23,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    app.quarkus.io/commit-id: 3aab1253eb81fdc3fe4742eb3e4282a9ca43c6b7
-    app.quarkus.io/build-timestamp: 2022-06-21 - 13:16:21 +0000
+    app.quarkus.io/commit-id: 5753f6dd718569b40aa9db11380e74244232f20e
+    app.quarkus.io/build-timestamp: 2022-08-01 - 15:47:30 +0000
   labels:
     app.kubernetes.io/name: camel-quarkus-kafka-consumer-raw
     app.kubernetes.io/version: 1.0.0-SNAPSHOT
@@ -38,8 +38,8 @@ spec:
   template:
     metadata:
       annotations:
-        app.quarkus.io/commit-id: 3aab1253eb81fdc3fe4742eb3e4282a9ca43c6b7
-        app.quarkus.io/build-timestamp: 2022-06-21 - 13:16:21 +0000
+        app.quarkus.io/commit-id: 5753f6dd718569b40aa9db11380e74244232f20e
+        app.quarkus.io/build-timestamp: 2022-08-01 - 15:47:30 +0000
       labels:
         app.kubernetes.io/name: camel-quarkus-kafka-consumer-raw
         app.kubernetes.io/version: 1.0.0-SNAPSHOT

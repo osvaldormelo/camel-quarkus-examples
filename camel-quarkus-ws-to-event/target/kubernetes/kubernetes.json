@@ -3,8 +3,8 @@
   "kind" : "Service",
   "metadata" : {
     "annotations" : {
-      "app.quarkus.io/commit-id" : "3aab1253eb81fdc3fe4742eb3e4282a9ca43c6b7",
-      "app.quarkus.io/build-timestamp" : "2022-06-22 - 19:07:45 +0000"
+      "app.quarkus.io/commit-id" : "5753f6dd718569b40aa9db11380e74244232f20e",
+      "app.quarkus.io/build-timestamp" : "2022-08-01 - 15:38:32 +0000"
     },
     "labels" : {
       "app.kubernetes.io/name" : "camel-quarkus-ws-to-event",
@@ -29,8 +29,8 @@
   "kind" : "Deployment",
   "metadata" : {
     "annotations" : {
-      "app.quarkus.io/commit-id" : "3aab1253eb81fdc3fe4742eb3e4282a9ca43c6b7",
-      "app.quarkus.io/build-timestamp" : "2022-06-22 - 19:07:45 +0000"
+      "app.quarkus.io/commit-id" : "5753f6dd718569b40aa9db11380e74244232f20e",
+      "app.quarkus.io/build-timestamp" : "2022-08-01 - 15:38:32 +0000"
     },
     "labels" : {
       "app.kubernetes.io/version" : "1.0.0-SNAPSHOT",
@@ -49,8 +49,8 @@
     "template" : {
       "metadata" : {
         "annotations" : {
-          "app.quarkus.io/commit-id" : "3aab1253eb81fdc3fe4742eb3e4282a9ca43c6b7",
-          "app.quarkus.io/build-timestamp" : "2022-06-22 - 19:07:45 +0000"
+          "app.quarkus.io/commit-id" : "5753f6dd718569b40aa9db11380e74244232f20e",
+          "app.quarkus.io/build-timestamp" : "2022-08-01 - 15:38:32 +0000"
         },
         "labels" : {
           "app.kubernetes.io/version" : "1.0.0-SNAPSHOT",
@@ -88,8 +88,8 @@
   "kind" : "Ingress",
   "metadata" : {
     "annotations" : {
-      "app.quarkus.io/commit-id" : "3aab1253eb81fdc3fe4742eb3e4282a9ca43c6b7",
-      "app.quarkus.io/build-timestamp" : "2022-06-22 - 19:07:45 +0000"
+      "app.quarkus.io/commit-id" : "5753f6dd718569b40aa9db11380e74244232f20e",
+      "app.quarkus.io/build-timestamp" : "2022-08-01 - 15:38:32 +0000"
     },
     "labels" : {
       "app.kubernetes.io/name" : "camel-quarkus-ws-to-event",

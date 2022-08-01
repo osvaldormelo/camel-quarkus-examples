@@ -8,7 +8,12 @@ import org.apache.camel.component.jackson.JacksonDataFormat;
 import org.apache.camel.component.infinispan.InfinispanConstants;
 import org.apache.camel.component.infinispan.InfinispanOperation;
 import com.redhat.models.Key;
+import com.redhat.processors.TimerProcessor;
+
 import org.apache.camel.LoggingLevel;
+
+import java.time.Duration;
+import java.time.Instant;
 import java.util.concurrent.TimeUnit;
 
 
@@ -68,7 +73,11 @@ public class ApiRouteBuilder extends RouteBuilder{
                     .setHeader(InfinispanConstants.OPERATION).constant(InfinispanOperation.GET)
                     .setHeader(InfinispanConstants.KEY,simple("${header.key}"))
                    // .log("Request to choice: ${headers} ${body}")
-                    .to("infinispan:" + CACHE_NAME) 
+                    .setHeader("startTimer", simple(String.valueOf(System.nanoTime())))
+                    .to("infinispan:" + CACHE_NAME)
+                    .setHeader("stopTimer", simple(String.valueOf(System.nanoTime())))
+                    .process(new TimerProcessor())                    
+                    .log("Time to get from cache: "+ "${header.timer}")
                     .unmarshal(new JacksonDataFormat(Key.class))
                     .setBody(simple("${body}"))
                 .endChoice()
@@ -83,10 +92,12 @@ public class ApiRouteBuilder extends RouteBuilder{
                     .setHeader(InfinispanConstants.LIFESPAN_TIME_UNIT,simple(TimeUnit.SECONDS.toString()))
                     .setHeader(InfinispanConstants.MAX_IDLE_TIME, simple("${header.lifespantimeseconds}"))
                     .setHeader(InfinispanConstants.MAX_IDLE_TIME_UNIT, simple(TimeUnit.SECONDS.toString()))
-                   // .log("Request to PUT on Cache: ${headers} ${body}") 
-                   .to("infinispan:" + CACHE_NAME)
-                   // .log("Result to PUT on Cache: ${headers} ${body}") 
+                    .setHeader("startTimer", simple(String.valueOf(System.nanoTime())))
+                    .to("infinispan:" + CACHE_NAME)                   
                     .setBody(simple("${header.CamelInfinispanValue}"))
+                    .setHeader("stopTimer", simple(String.valueOf(System.nanoTime())))
+                    .process(new TimerProcessor())                    
+                    .log("Time to put on cache: "+ "${header.timer}")
                     .unmarshal(new JacksonDataFormat(Key.class))
                    .setBody(simple("${body}"))
         		.endChoice();
