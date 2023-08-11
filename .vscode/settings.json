@@ -5,7 +5,9 @@
         "/Users/omelo/Library/Application Support/Code/User/globalStorage/redhat.vscode-camelk/java-dependencies-3.14.1/dependencies/*.jar",
         "/Users/omelo/Library/Application Support/Code/User/globalStorage/redhat.vscode-camelk/java-dependencies-3.16.0/dependencies/*.jar",
         "/Users/omelo/Library/Application Support/Code/User/globalStorage/redhat.vscode-camelk/java-dependencies-3.18.0/dependencies/*.jar",
-        "/Users/omelo/Library/Application Support/Code/User/globalStorage/redhat.vscode-camelk/java-dependencies-3.19.0/dependencies/*.jar"
+        "/Users/omelo/Library/Application Support/Code/User/globalStorage/redhat.vscode-camelk/java-dependencies-3.19.0/dependencies/*.jar",
+        "/Users/omelo/Library/Application Support/Code/User/globalStorage/redhat.vscode-camelk/java-dependencies-3.20.1/dependencies/*.jar"
     ],
-    "java.jdt.ls.vmargs": "-XX:+UseParallelGC -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xmx2G -Xms100m"
+    "java.jdt.ls.vmargs": "-XX:+UseParallelGC -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xmx2G -Xms100m",
+    "java.compile.nullAnalysis.mode": "automatic"
 }

@@ -9,6 +9,17 @@ This project uses Quarkus, the Supersonic Subatomic Java Framework.This is an AP
   ```shell script
   oc new-project <your namespace>
   ```
+* Install AMQ Streams Operator
+  
+  ![](/images/InstallAMQOperator.png)
+
+* Deploy AMQ Streams Cluster
+  
+  ![](/images/DeployAMQCluster.png)
+
+* Create Topic
+  
+  ![](/images/CreateTopic.png)
 
 * Deploy Mongo DB
   ```shell script
