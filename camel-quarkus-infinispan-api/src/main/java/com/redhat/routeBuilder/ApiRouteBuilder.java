@@ -62,7 +62,8 @@ public class ApiRouteBuilder extends RouteBuilder{
                         //.log("Request to circuit breaker: ${headers} ${body}")                       
         				.to("direct:cache")
         	        .onFallback()
-        	        	.to("direct:getFromRestApi")
+        	        	//.to("direct:getFromRestApi")
+                        .log("Não achei no cache")
         	        .end()
         ;
         //if result is not present on cache, search on API and put on cache for futures requests

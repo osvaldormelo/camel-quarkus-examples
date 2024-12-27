@@ -22,6 +22,7 @@ Everyone is invited to collaborate, enjoy!
 
 8. camel-quarkus-infinispan - An example of API proxy using cache from datagrid. This example uses circuit breaker and choice patterns and consumes camel-quarkus-oracle API.
 
+9. camel-quarkus-soap-kafka - An example originated from the need to use a SOAP service in Camel to replace a legacy SOAP service with minimal impact on existing applications.
 == Useful Links
 
 https://code.quarkus.redhat.com/ - Application Generator

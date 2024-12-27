@@ -1,0 +1,123 @@
+package com.redhat;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.Exchange;
+import org.apache.camel.LoggingLevel;
+import org.apache.camel.Processor;
+import org.apache.camel.component.kafka.KafkaConstants;
+import org.apache.parquet.hadoop.ParquetReader;
+import org.apache.parquet.hadoop.util.HadoopInputFile;
+import org.apache.parquet.avro.AvroParquetReader;
+import org.apache.avro.Schema;
+import org.apache.avro.generic.GenericRecord;
+import io.apicurio.registry.client.RegistryRestClient;
+import io.apicurio.registry.client.RegistryRestClientFactory;
+
+@ApplicationScoped
+public class KafkaToS3Route extends RouteBuilder {
+    protected String KAFKA_TOPIC = "{{quarkus.openshift.env.vars.kafka-topic}}";
+    protected String KAFKA_BOOTSTRAP_SERVERS = "{{quarkus.openshift.env.vars.kafka-bootstrap-servers}}";
+    protected String KAFKA_GROUP_ID = "{{quarkus.openshift.env.vars.kafka-group-id}}";
+    protected String KAFKA_CONSUMER_MAX_POLL_RECORDS = "{{quarkus.openshift.env.vars.kafka-consumer-max-poll-records}}";
+    protected String KAFKA_CONSUMER_AUTO_COMMIT_ENABLE = "{{quarkus.openshift.env.vars.kafka-consumer-auto-commit-enable}}";
+    protected String KAFKA_CONSUMER_FETCH_MIN_BYTES = "{{quarkus.openshift.env.vars.kafka-consumer-fetch-min-bytes}}";
+    protected String KAFKA_CONSUMER_FETCH_WAIT_MAX_MS = "{{quarkus.openshift.env.vars.kafka-consumer-fetch-wait-max-ms}}";
+    protected String KAFKA_CONSUMER_FETCH_MAX_BYTES = "{{quarkus.openshift.env.vars.kafka-consumer-fetch-max-bytes}}"; 
+    protected String KAFKA_CONSUMER_SECURITY_PROTOCOL = "{{quarkus.openshift.env.vars.kafka-consumer-security-protocol}}";
+    protected String KAFKA_CONSUMER_TRUSTSTORE_LOCATION = "{{quarkus.openshift.env.vars.kafka-consumer-ssl-truststore-location}}";
+    protected String KAFKA_CONSUMER_TRUSTSTORE_PASSWORD = "{{quarkus.openshift.env.vars.kafka-consumer-ssl-truststore-password}}";
+    protected String KAFKA_CONSUMER_SASL_MECHANISM = "{{quarkus.openshift.env.vars.kafka-consumer-sasl-mechanism}}";
+    protected String KAFKA_CONSUMER_JAAS_CONFIG = "{{quarkus.openshift.env.vars.kafka-consumer-sasl-jaas-config}}";
+    protected String KAFKA_PRODUCER_COMPRESSION_CODEC = "{{quarkus.openshift.env.vars.kafka-producer-compression-codec}}";
+    protected String KAFKA_PRODUCER_REQUIRED_ACKS = "{{quarkus.openshift.env.vars.kafka-producer-required-acks}}";
+    protected String KAFKA_PRODUCER_BUFFER_MEMORY_SIZE = "{{quarkus.openshift.env.vars.kafka-producer-buffer-memory-size}}";
+    protected String KAFKA_PRODUCER_LINGER_MS = "{{quarkus.openshift.env.vars.kafka-producer-linger-ms}}";
+    protected String KAFKA_PRODUCER_BATCH_SIZE = "{{quarkus.openshift.env.vars.kafka-producer-batch-size}}";
+    protected String KAFKA_PRODUCER_SECURITY_PROTOCOL = "{{quarkus.openshift.env.vars.kafka-producer-security-protocol}}";
+    protected String KAFKA_PRODUCER_TRUSTSTORE_LOCATION = "{{quarkus.openshift.env.vars.kafka-producer-ssl-truststore-location}}";
+    protected String KAFKA_PRODUCER_TRUSTSTORE_PASSWORD = "{{quarkus.openshift.env.vars.kafka-producer-ssl-truststore-password}}";
+    protected String KAFKA_PRODUCER_SASL_MECHANISM = "{{quarkus.openshift.env.vars.kafka-producer-sasl-mechanism}}";
+    protected String KAFKA_PRODUCER_JAAS_CONFIG = "{{quarkus.openshift.env.vars.kafka-producer-sasl-jaas-config}}";
+
+    @Override
+    public void configure() throws Exception{
+        log.info("Starting routes...");
+        RegistryRestClient client = RegistryRestClientFactory.create("http://example-apicurioregistry-kafkasql.kafka.router-default.apps.cluster-jvtsx.jvtsx.sandbox808.opentlc.com/apis/registry/v2");
+        
+        from("kafka:" + KAFKA_TOPIC + "?brokers=" + KAFKA_BOOTSTRAP_SERVERS + "&groupId=" + KAFKA_GROUP_ID +
+                    "&maxPollRecords=" + KAFKA_CONSUMER_MAX_POLL_RECORDS +
+                    "&autoCommitEnable=" + KAFKA_CONSUMER_AUTO_COMMIT_ENABLE +
+                    "&fetchMinBytes=" + KAFKA_CONSUMER_FETCH_MIN_BYTES +
+                    "&fetchWaitMaxMs=" + KAFKA_CONSUMER_FETCH_WAIT_MAX_MS +
+                    "&fetchMaxBytes=" + KAFKA_CONSUMER_FETCH_MAX_BYTES +
+                    "&securityProtocol=" + KAFKA_CONSUMER_SECURITY_PROTOCOL +
+                    "&sslTruststoreLocation=" + KAFKA_CONSUMER_TRUSTSTORE_LOCATION +
+                    "&sslTruststorePassword=" + KAFKA_CONSUMER_TRUSTSTORE_PASSWORD +                                               
+                    "&saslMechanism=" + KAFKA_CONSUMER_SASL_MECHANISM +
+                    "&saslJaasConfig=" + KAFKA_CONSUMER_JAAS_CONFIG )
+            .routeId("consume-kafka")
+            .log(LoggingLevel.INFO, "Consuming Kafka");
+            process(new Processor() {
+                @Override
+                public void process(Exchange exchange) throws Exception {
+                    // Fetch schema from Apicurio Registry
+                    String artifactId = "organization";
+                    String groupId = "redhat";
+                    Schema schema = new Schema.Parser().parse(client.getLatestArtifact(groupId, artifactId).getContent());
+                    
+                    // Validate Parquet file against schema
+                    String filePath = exchange.getIn().getBody(String.class);
+                    HadoopInputFile inputFile = HadoopInputFile.fromPath(new org.apache.hadoop.fs.Path(filePath), new Configuration());
+                    ParquetReader<GenericRecord> reader = AvroParquetReader.<GenericRecord>builder(inputFile).withSchema(schema).build();
+
+                    GenericRecord record;
+                    while ((record = reader.read()) != null) {
+                        // Here you can validate or process each record
+                        // For demonstration, just log the record
+                        log.info("Read record: " + record);
+                    }
+                    reader.close();
+                }
+            })
+            .marshal().parquet()
+            .to("direct:writeToS3");
+
+        from("direct:writeToS3").routeId("writeToS3")
+            .log(LoggingLevel.INFO, "Send to s3");
+            .to("aws2-s3://bucket-parquet?region=us-east-1&accessKey=RAW(minio)&secretKey=RAW(minio123)&endpoint=https://minio-api-minio.apps.cluster-jvtsx.jvtsx.sandbox808.opentlc.com&deleteAfterread=false");
+        
+        from("aws2-s3://bucket-parquet?region=us-east-1&accessKey=RAW(minio)&secretKey=RAW(minio123)&endpoint=https://minio-api-minio.apps.cluster-jvtsx.jvtsx.sandbox808.opentlc.com&deleteAfterread=false")
+            .routeId("sendToKafka")
+            //  .setHeader(KafkaConstants.KEY, constant("Camel")) // Key of the message
+             .log(LoggingLevel.INFO, "file: " + "${body}")
+             .to("kafka:" + KAFKA_TOPIC + "?brokers=" + KAFKA_BOOTSTRAP_SERVERS +
+                             "&compressionCodec=" + KAFKA_PRODUCER_COMPRESSION_CODEC +
+                             "&requestRequiredAcks=" + KAFKA_PRODUCER_REQUIRED_ACKS +
+                             "&bufferMemorySize=" + KAFKA_PRODUCER_BUFFER_MEMORY_SIZE +
+                             "&lingerMs=" + KAFKA_PRODUCER_LINGER_MS +
+                             "&producerBatchSize=" + KAFKA_PRODUCER_BATCH_SIZE +
+                             "&securityProtocol=" + KAFKA_PRODUCER_SECURITY_PROTOCOL +
+                             "&sslTruststoreLocation=" + KAFKA_PRODUCER_TRUSTSTORE_LOCATION +
+                             "&sslTruststorePassword=" + KAFKA_PRODUCER_TRUSTSTORE_PASSWORD +                                               
+                             "&saslMechanism=" + KAFKA_PRODUCER_SASL_MECHANISM +
+                             "&saslJaasConfig=" + KAFKA_PRODUCER_JAAS_CONFIG +
+                             "");
+            from("aws2-s3://bucket-parquet?region=us-east-1&accessKey=RAW(minio)&secretKey=RAW(minio123)&endpoint=https://minio-api-minio.apps.cluster-jvtsx.jvtsx.sandbox808.opentlc.com&deleteAfterread=false")
+                             .routeId("sendToKafka")
+                             //  .setHeader(KafkaConstants.KEY, constant("Camel")) // Key of the message
+                              .log(LoggingLevel.INFO, "file: " + "${body}")
+                              .to("kafka:" + KAFKA_TOPIC + "?brokers=" + KAFKA_BOOTSTRAP_SERVERS +
+                                              "&compressionCodec=" + KAFKA_PRODUCER_COMPRESSION_CODEC +
+                                              "&requestRequiredAcks=" + KAFKA_PRODUCER_REQUIRED_ACKS +
+                                              "&bufferMemorySize=" + KAFKA_PRODUCER_BUFFER_MEMORY_SIZE +
+                                              "&lingerMs=" + KAFKA_PRODUCER_LINGER_MS +
+                                              "&producerBatchSize=" + KAFKA_PRODUCER_BATCH_SIZE +
+                                              "&securityProtocol=" + KAFKA_PRODUCER_SECURITY_PROTOCOL +
+                                              "&sslTruststoreLocation=" + KAFKA_PRODUCER_TRUSTSTORE_LOCATION +
+                                              "&sslTruststorePassword=" + KAFKA_PRODUCER_TRUSTSTORE_PASSWORD +                                               
+                                              "&saslMechanism=" + KAFKA_PRODUCER_SASL_MECHANISM +
+                                              "&saslJaasConfig=" + KAFKA_PRODUCER_JAAS_CONFIG +
+                                              "");
+    }
+}
